@@ -3,8 +3,6 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Logo from "svg/Logo";
 
-
-
 export default function Register() {
   const router = useRouter();
   const [user, setUser] = useState(null);
@@ -26,9 +24,9 @@ export default function Register() {
       });
   };
 
-  const handleClick = () =>{
-    router.push("/login")
-  }
+  const handleClick = () => {
+    router.push("/login");
+  };
 
   useEffect(() => {
     const token = window.localStorage.getItem("token");
@@ -38,15 +36,17 @@ export default function Register() {
   }, []);
 
   return (
-    <div className=" flex flex-col justify-center items-center h-screen bg-black text-gray-200 ">
-      <Logo className= " h-20 w-1/2 "/>
-      <h1 className="text-xl h-12">Registrate y comparte tus canciones con el mundo</h1>
+    <div className="flex flex-col items-center justify-center h-screen text-gray-200 bg-black ">
+      <Logo className="w-1/2 h-20 " />
+      <h1 className="h-12 text-xl">
+        Registrate y comparte tus canciones con el mundo
+      </h1>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="h-14" >
+        <div className="h-14">
           <label className="flex flex-col font-semibold">
             Nombre:
             <input
-              className="border border-gray-400 rounded-full"
+              className="text-black border border-gray-400 rounded-full"
               type="text"
               name="username"
               {...register("name")}
@@ -57,7 +57,7 @@ export default function Register() {
           <label className="flex flex-col font-semibold">
             Email:
             <input
-              className="border border-gray-400 rounded-full"
+              className="text-black border border-gray-400 rounded-full"
               type="email"
               name="email"
               {...register("email")}
@@ -68,7 +68,7 @@ export default function Register() {
           <label className="flex flex-col font-semibold">
             Contraseña:
             <input
-              className="border border-gray-400 rounded-full"
+              className="text-black border border-gray-400 rounded-full"
               type="password"
               name="password"
               {...register("password")}
@@ -76,17 +76,17 @@ export default function Register() {
           </label>
         </div>
         <button
-          className="rounded-full  px-20 py-2 font-bold text-white bg-green-700 rounded hover:bg-green-600 focus:outline-none focus:shadow-outline"
+          className="px-20 py-2 font-bold text-white bg-green-700 rounded-full hover:bg-green-600 focus:outline-none focus:shadow-outline"
           type="submit"
         >
           Registrarse
         </button>
-        <button 
-        className="tex-gray-300 mx-3 hover:text-gray-100 "
-        onClick={handleClick}>
+        <button
+          className="mx-3 tex-gray-300 hover:text-gray-100 "
+          onClick={handleClick}
+        >
           Ir a Inicio de Sesion
         </button>
-        
       </form>
     </div>
   );

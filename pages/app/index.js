@@ -7,12 +7,26 @@ import Home from "svg/Home";
 import Search from "svg/Search";
 import Muisc from "svg/Music";
 import Play from "svg/Play";
+import Player from "components/Player";
 
 export default function App() {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [songs, setSongs] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
+
+  const [currentSongIndex, setCurrentSongIndex] = useState(0);
+  const [nextSongIndex, setNextSongIndex] = useState(0);
+
+  useEffect(() => {
+    setNextSongIndex(() => {
+      if (currentSongIndex + 1 > songs.length - 1) {
+        return 0;
+      } else {
+        return currentSongIndex + 1;
+      }
+    });
+  }, [currentSongIndex]);
 
   useEffect(() => {
     const token = window.localStorage.getItem("token");
@@ -25,8 +39,8 @@ export default function App() {
         })
         .then((res) => res.json())
         .then((data) => {
-          setUser(data);
           console.log(data);
+          setUser(data);
         })
         .catch((err) => {
           console.error(err.message);
@@ -38,7 +52,7 @@ export default function App() {
     if (user) {
       window
         .fetch(
-          `https://api-indiesingles.herokuapp.com/api/songs?authorId=${user._id}`,
+          `https://api-indiesingles.herokuapp.com/api/songs?authorId=${user._id}&from=0&limit=0`,
           {
             headers: {
               Authorization: `Bearer ${window.localStorage.getItem("token")}`,
@@ -47,7 +61,7 @@ export default function App() {
         )
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
+          console.log(data, "songs");
           setSongs(data);
         });
 
@@ -74,11 +88,7 @@ export default function App() {
   };
 
   return (
-    <div
-      className={`${
-        user && songs.length > 0 ? "fixed" : ""
-      } flex flex-row text-gray-50`}
-    >
+    <div className="flex flex-row max-h-screen overflow-y-hidden text-gray-50">
       <nav className="h-screen text-lg font-medium bg-black w-80">
         <div className="pt-4 pl-4">
           <Logo />
@@ -132,9 +142,17 @@ export default function App() {
                 </li>
               ))}
         </ul>
+        <button
+          onClick={() => {
+            logout();
+          }}
+          className="p-4 m-4 text-white transition-colors bg-green-500 rounded-md hover:bg-green-600"
+        >
+          Cerrar Sesión
+        </button>
       </nav>
-      <main className="w-full px-10 bg-gray-900">
-        <div className="flex flex-row justify-between py-4">
+      <main className="w-full bg-gray-900">
+        <div className="flex flex-row justify-between p-4">
           <div className="flex flex-row">
             <h1 className="text-3xl font-bold">Home</h1>
           </div>
@@ -159,7 +177,7 @@ export default function App() {
             )}
           </div>
         </div>
-        <section className="max-h-screen pb-48 overflow-y-scroll">
+        <section className="max-h-screen px-5 pb-24 overflow-y-scroll">
           <h1 className="text-xl">Tus canciones</h1>
           {songs.length > 0 ? (
             <ul className="grid pt-4 grid-cols gap-x-24 gap-y-16 place-items-center md:grid-cols-2 lg:grid-cols-3">
@@ -194,6 +212,14 @@ export default function App() {
             <div className="flex flex-row justify-center">
               <span className="text-gray-100">No tienes canciones todavía</span>
             </div>
+          )}
+          {songs.length > 0 && (
+            <Player
+              currentSongIndex={currentSongIndex}
+              setCurrentSongIndex={setCurrentSongIndex}
+              nextSongIndex={nextSongIndex}
+              songs={songs}
+            />
           )}
         </section>
       </main>
