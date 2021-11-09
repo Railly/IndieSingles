@@ -8,79 +8,18 @@ import Search from "svg/Search";
 import Muisc from "svg/Music";
 import Play from "svg/Play";
 import Player from "components/Player";
+import useUser from "hooks/useUser";
+import useAllUsers from "hooks/useAllUsers";
+import useSongs from "hooks/useSongs";
+import useSongIndex from "hooks/useSongIndex";
 
 export default function App() {
   const router = useRouter();
-  const [user, setUser] = useState(null);
-  const [songs, setSongs] = useState([]);
-  const [allUsers, setAllUsers] = useState([]);
-
-  const [currentSongIndex, setCurrentSongIndex] = useState(0);
-  const [nextSongIndex, setNextSongIndex] = useState(0);
-
-  useEffect(() => {
-    setNextSongIndex(() => {
-      if (currentSongIndex + 1 > songs.length - 1) {
-        return 0;
-      } else {
-        return currentSongIndex + 1;
-      }
-    });
-  }, [currentSongIndex]);
-
-  useEffect(() => {
-    const token = window.localStorage.getItem("token");
-    if (token) {
-      window
-        .fetch("https://api-indiesingles.herokuapp.com/api/user", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-          setUser(data);
-        })
-        .catch((err) => {
-          console.error(err.message);
-        });
-    }
-  }, []);
-
-  useEffect(() => {
-    if (user) {
-      window
-        .fetch(
-          `https://api-indiesingles.herokuapp.com/api/songs?authorId=${user._id}&from=0&limit=0`,
-          {
-            headers: {
-              Authorization: `Bearer ${window.localStorage.getItem("token")}`,
-            },
-          }
-        )
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data, "songs");
-          setSongs(data);
-        });
-
-      window
-        .fetch(
-          "https://api-indiesingles.herokuapp.com/api/users?from=0&limit=10",
-          {
-            headers: {
-              Authorization: `Bearer ${window.localStorage.getItem("token")}`,
-            },
-          }
-        )
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-          setAllUsers(data);
-        });
-    }
-  }, [user]);
+  const user = useUser();
+  const songs = useSongs(user);
+  const allUsers = useAllUsers();
+  const { currentSongIndex, nextSongIndex, setCurrentSongIndex } =
+    useSongIndex(songs);
 
   const logout = () => {
     window.localStorage.removeItem("token");
@@ -166,7 +105,9 @@ export default function App() {
                   width={40}
                   height={40}
                 />
-                <span className="ml-4 text-lg font-medium">{user.name}</span>
+                <Link href="/app/profile">
+                  <a className="ml-4 text-lg font-medium">{user.name}</a>
+                </Link>
               </div>
             ) : (
               <Link href="/login">
