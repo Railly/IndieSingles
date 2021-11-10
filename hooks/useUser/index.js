@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 export default function useUser() {
   const [user, setUser] = useState(null);
+
   useEffect(() => {
     const token = window.localStorage.getItem("token");
     if (token) {
@@ -14,7 +15,7 @@ export default function useUser() {
         .then((res) => res.json())
         .then((data) => {
           console.log(data);
-          setUser(data);
+          setUser(data, "setUser(data)");
         })
         .catch((err) => {
           console.error(err.message);

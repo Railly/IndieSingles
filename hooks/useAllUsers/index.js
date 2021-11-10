@@ -18,7 +18,7 @@ export default function useAllUsers() {
         console.log(data);
         setAllUsers(data);
       });
-  });
+  }, []);
 
   return allUsers;
 }
