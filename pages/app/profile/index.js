@@ -4,7 +4,7 @@ import { useForm, useFormState } from "react-hook-form";
 import { useEffect, useState } from "react";
 import useUpdateUser from "hooks/useUpdateUser";
 
-export default function App({ children, Profile, NavBar, MediaPlayerBar }) {
+export default function App({ Profile, NavBar }) {
   const user = useUser();
   const handleUpdateUser = useUpdateUser();
   const [file, setFile] = useState(null);
@@ -148,7 +148,6 @@ export default function App({ children, Profile, NavBar, MediaPlayerBar }) {
               </div>
             </form>
           </section>
-          <MediaPlayerBar />
         </section>
       </main>
     </div>

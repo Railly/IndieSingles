@@ -4,7 +4,7 @@ import Play from "svg/Play";
 import SkipNext from "svg/SkipNext";
 import SkipPrevious from "svg/SkipPrevious";
 
-function Controls({ isPlaying, setIsPlaying, SkipSong }) {
+function Controls({ isPlaying, setIsPlaying = () => {}, SkipSong }) {
   return (
     <div className="flex justify-center justify-self-center">
       <button className="preview-btn " onClick={() => SkipSong(false)}>
@@ -15,8 +15,8 @@ function Controls({ isPlaying, setIsPlaying, SkipSong }) {
           <Pause width={60} height={60} />
         ) : (
           <Play
-            playColor="#262626"
-            playBackgroundColor="#fff"
+            playcolor="#262626"
+            playbackgroundcolor="#fff"
             width={60}
             height={60}
           />

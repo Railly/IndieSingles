@@ -4,7 +4,7 @@ import useUser from "hooks/useUser";
 import useSongs from "hooks/useSongs";
 import { useRouter } from "next/router";
 
-export default function App({ children, Profile, NavBar, MediaPlayerBar }) {
+export default function App({ Profile, NavBar }) {
   const router = useRouter();
   const user = useUser();
   const songs = useSongs(user);
@@ -65,7 +65,6 @@ export default function App({ children, Profile, NavBar, MediaPlayerBar }) {
               <span className="text-gray-100">No tienes canciones todavía</span>
             </div>
           )}
-          <MediaPlayerBar />
         </section>
       </main>
     </div>

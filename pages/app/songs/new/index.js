@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
-export default function App({ Profile, NavBar, MediaPlayerBar }) {
+export default function App({ Profile, NavBar }) {
   const { register, handleSubmit } = useForm();
   const [fileImage, setFileImage] = useState(null);
   const [fileAudio, setFileAudio] = useState(null);
@@ -137,7 +137,6 @@ export default function App({ Profile, NavBar, MediaPlayerBar }) {
               </button>
             </div>
           </form>
-          <MediaPlayerBar />
         </section>
       </main>
     </div>

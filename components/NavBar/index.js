@@ -4,8 +4,9 @@ import Home from "svg/Home";
 import Logo from "svg/Logo";
 import Music from "svg/Music";
 import Search from "svg/Search";
+import useUser from "hooks/useUser";
 
-export default function NavBar(allUsers) {
+export default function NavBar(allUsers, user) {
   const router = useRouter();
 
   const logout = () => {
@@ -46,14 +47,12 @@ export default function NavBar(allUsers) {
       </ul>
       <ul>
         {allUsers.length > 0 &&
+          user &&
           allUsers
-            .filter((user) => {
-              // return user.userSubscribers.includes(user._id);
-              return user;
-            })
+            .filter((u) => u._id !== user._id)
             .map((user) => (
               <li className="pt-4 pl-4 font-normal" key={user._id}>
-                <Link href="/app/artist/[id]" as={`/app/artist/${user._id}`}>
+                <Link href={`/app/artist/${user._id}`}>
                   <a className="flex flex-row">
                     <span className="ml-2">{user.name}</span>
                   </a>

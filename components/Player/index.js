@@ -3,13 +3,14 @@ import Controls from "components/Controls";
 import Details from "components/Details";
 
 export default function jPlayer({
+  isPlaying,
+  setIsPlaying,
   currentSongIndex,
   setCurrentSongIndex,
   nextSongIndex,
   songs,
 }) {
   const audioEl = useRef(null);
-  const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
     if (isPlaying) {

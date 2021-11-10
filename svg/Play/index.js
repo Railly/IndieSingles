@@ -1,6 +1,6 @@
 export default function Play(props) {
-  const playColor = props.playColor || "#fff";
-  const playBackgroundColor = props.playBackgroundColor || "#10B981";
+  const playColor = props.playcolor || "#fff";
+  const playBackgroundColor = props.playbackgroundcolor || "#10B981";
   return (
     <svg
       width={24}
