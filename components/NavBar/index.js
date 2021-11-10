@@ -18,7 +18,7 @@ export default function NavBar(allUsers) {
       <div className="pt-4 pl-4">
         <Logo />
       </div>
-      <ul className="pt-4 pb-4 mx-4 border-b-4 border-gray-800">
+      <ul className="pt-4 pb-4 mx-4 overflow-y-scroll border-b-4 border-gray-800">
         <li className="pt-4">
           <Link href="/app">
             <a className="flex flex-row">
@@ -39,7 +39,7 @@ export default function NavBar(allUsers) {
           <Link href="/app/artists/">
             <a className="flex flex-row">
               <Music />
-              <span className="ml-2">Tus Artistas</span>
+              <span className="ml-2">Todos los artistas</span>
             </a>
           </Link>
         </li>

@@ -2,8 +2,10 @@ import Image from "next/image";
 import Play from "svg/Play";
 import useUser from "hooks/useUser";
 import useSongs from "hooks/useSongs";
+import { useRouter } from "next/router";
 
 export default function App({ children, Profile, NavBar, MediaPlayerBar }) {
+  const router = useRouter();
   const user = useUser();
   const songs = useSongs(user);
 
@@ -18,7 +20,17 @@ export default function App({ children, Profile, NavBar, MediaPlayerBar }) {
           <Profile />
         </div>
         <section className="max-h-screen px-5 overflow-y-scroll pb-72">
-          <h1 className="text-xl">Tus canciones</h1>
+          <div className="flex flex-row justify-between">
+            <h1 className="text-xl">Tus canciones</h1>
+            <button
+              onClick={() => {
+                router.push("app/songs/new");
+              }}
+              className="fixed right-0 z-10 px-4 py-2 mr-8 font-bold text-white bg-green-500 rounded hover:bg-blue-700"
+            >
+              Agregar canciones
+            </button>
+          </div>
           {songs.length > 0 ? (
             <ul className="grid pt-4 grid-cols gap-x-24 gap-y-16 place-items-center md:grid-cols-2 lg:grid-cols-3">
               {songs.map((song) => (
