@@ -10,7 +10,7 @@ import useGetAllSongs from "hooks/useGetAllSongs";
 
 export default function AppLayout({ Component, pageProps }) {
   const user = useUser();
-  const allUsers = useAllUsers();
+  const { allUsers, refetchAllUsers } = useAllUsers();
   const { songs, refetchSongs } = useSongs(user);
   const { allSongs, refetchAllSongs } = useGetAllSongs(user);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -25,6 +25,7 @@ export default function AppLayout({ Component, pageProps }) {
         refetchSongs={refetchSongs}
         allSongs={allSongs}
         allUsers={allUsers}
+        refetchAllUsers={refetchAllUsers}
         setCurrentSongIndex={setCurrentSongIndex}
         setIsPlaying={setIsPlaying}
         isPlaying={isPlaying}

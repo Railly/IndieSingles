@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 export default function useAllUsers() {
   const [allUsers, setAllUsers] = useState([]);
+  const [reload, setReload] = useState(false);
 
   useEffect(() => {
     window
@@ -18,7 +19,7 @@ export default function useAllUsers() {
         console.log(data);
         setAllUsers(data);
       });
-  }, []);
+  }, [reload]);
 
-  return allUsers;
+  return { allUsers, refetchAllUsers: () => setReload(!reload) };
 }

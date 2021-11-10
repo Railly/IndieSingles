@@ -3,21 +3,62 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Play from "svg/Play";
 import Back from "svg/Back";
+import useAllUsers from "hooks/useAllUsers";
 
-export default function Artist({ Profile, NavBar, allUsers, songs }) {
+export default function Artist({ Profile, NavBar, user }) {
+  const { allUsers, refetchAllUsers } = useAllUsers();
   const router = useRouter();
   const { authorId } = router.query;
   const [currentSongs, setCurrentSongs] = useState([]);
-  const [currentUser, setCurrentUser] = useState(
-    allUsers.find((user) => user._id === authorId)
-  );
+  const [author, setAuthor] = useState(null);
 
   useEffect(() => {
-    if (allUsers.length > 0) {
-      const _currentUser = allUsers.find((user) => user._id === authorId);
-      setCurrentUser(_currentUser);
+    refetchAllUsers();
+  }, []);
+
+  useEffect(() => {
+    if (allUsers.length > 0 && authorId) {
+      setAuthor(allUsers.find((user) => user._id === authorId));
     }
-  }, [authorId]);
+  }, [allUsers]);
+
+  const handleSubscribe = () => {
+    window
+      .fetch(
+        `https://api-indiesingles.herokuapp.com/api/user/subscribe?userToSubscribeId=${authorId}`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        router.reload();
+      })
+      .catch((err) => console.error(err));
+  };
+
+  const handleUnsubscribe = () => {
+    window
+      .fetch(
+        `https://api-indiesingles.herokuapp.com/api/user/unsubscribe?userToUnsubscribeId=${authorId}`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        router.reload();
+      })
+      .catch((err) => console.error(err));
+  };
 
   useEffect(() => {
     if (authorId) {
@@ -52,42 +93,63 @@ export default function Artist({ Profile, NavBar, allUsers, songs }) {
               router.back();
             }}
           />
-          {currentUser && (
+          {author && (
             <div className="flex flex-row items-center">
-              {currentUser?.profileImage && (
+              {author?.profileImage && (
                 <Image
                   className="rounded-full"
-                  src={currentUser.profileImage}
+                  src={author.profileImage}
                   width={50}
                   height={50}
                 />
               )}
-              <h1 className="ml-4 text-3xl font-bold">{currentUser.name}</h1>
+              <h1 className="ml-4 text-3xl font-bold">{author.name}</h1>
             </div>
           )}
           <Profile />
         </div>
         <section className="max-h-screen px-5 overflow-y-scroll pb-72">
-          {currentUser && (
+          {author && user && (
             <>
               <p className="flex justify-center w-full mb-5 text-2xl font-medium">
-                {currentUser.description}
+                {author.description}
               </p>
               <div className="grid grid-cols-3 mb-4 place-items-center">
                 <p className="text-sm">
                   Se unió en{" "}
-                  {new Date(currentUser.createdAt).toLocaleDateString("es-ES", {
+                  {new Date(author.createdAt).toLocaleDateString("es-ES", {
                     year: "numeric",
                     month: "long",
                   })}
                 </p>
-                <button className="px-4 py-2 text-white transition-colors bg-green-600 rounded-full hover:bg-green-700">
-                  Suscribirse
-                </button>
+                {user.userSubscriptions.find((id) => id === authorId) ? (
+                  <button
+                    className="px-4 py-2 text-white bg-gray-800 rounded-full"
+                    onClick={handleUnsubscribe}
+                  >
+                    Suscrito
+                  </button>
+                ) : user._id === authorId ? (
+                  <button
+                    onClick={() => {
+                      router.push("/app/profile");
+                    }}
+                    className="px-4 py-2 text-white bg-gray-800 rounded-full"
+                  >
+                    Editar Perfil
+                  </button>
+                ) : (
+                  <button
+                    className="px-4 py-2 text-white bg-green-600 rounded-full"
+                    onClick={handleSubscribe}
+                  >
+                    Suscribirse
+                  </button>
+                )}
                 <p className="text-sm">
-                  {currentUser.userSongs.length} canciones
+                  {author.userSongs.length} canciones
                   <span className="text-gray-400"> · </span>
-                  {currentUser.userSubscribers.length} seguidores
+                  {author.userSubscribers.length} seguidores
                 </p>
               </div>
             </>
