@@ -4,7 +4,6 @@ import Home from "svg/Home";
 import Logo from "svg/Logo";
 import Music from "svg/Music";
 import Search from "svg/Search";
-import useUser from "hooks/useUser";
 
 export default function NavBar(allUsers, user) {
   const router = useRouter();
@@ -19,7 +18,7 @@ export default function NavBar(allUsers, user) {
       <div className="pt-4 pl-4">
         <Logo />
       </div>
-      <ul className="pt-4 pb-4 mx-4 overflow-y-scroll border-b-4 border-gray-800">
+      <ul className="pt-4 pb-4 mx-4 border-b-4 border-gray-800">
         <li className="pt-4">
           <Link href="/app">
             <a className="flex flex-row">
@@ -45,11 +44,11 @@ export default function NavBar(allUsers, user) {
           </Link>
         </li>
       </ul>
-      <ul>
+      <ul className="overflow-y-scroll">
         {allUsers.length > 0 &&
           user &&
           allUsers
-            .filter((u) => u._id !== user._id)
+            // .filter((u) => u._id !== user._id)
             .map((user) => (
               <li className="pt-4 pl-4 font-normal" key={user._id}>
                 <Link href={`/app/artist/${user._id}`}>

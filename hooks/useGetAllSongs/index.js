@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 
-export default function useSongs(user) {
-  const [songs, setSongs] = useState([]);
+export default function useGetAllSongs(user) {
+  const [allSongs, setAllSongs] = useState([]);
   const [reload, setReload] = useState(false);
 
   useEffect(() => {
     if (user) {
       window
         .fetch(
-          `https://api-indiesingles.herokuapp.com/api/songs?authorId=${user._id}&from=0&limit=0`,
+          `https://api-indiesingles.herokuapp.com/api/songs?from=0&limit=0`,
           {
             headers: {
               Authorization: `Bearer ${window.localStorage.getItem("token")}`,
@@ -17,11 +17,11 @@ export default function useSongs(user) {
         )
         .then((res) => res.json())
         .then((data) => {
-          console.log(data, "songs");
-          setSongs(data);
+          console.log(data, "allSongs");
+          setAllSongs(data);
         });
     }
   }, [user, reload]);
 
-  return { songs, refetchSongs: () => setReload(!reload) };
+  return { allSongs, refetchAllSongs: () => setReload(!reload) };
 }

@@ -1,13 +1,9 @@
 import Image from "next/image";
 import Play from "svg/Play";
-import useUser from "hooks/useUser";
-import useSongs from "hooks/useSongs";
 import { useRouter } from "next/router";
 
-export default function App({ Profile, NavBar }) {
+export default function App({ Profile, NavBar, songs }) {
   const router = useRouter();
-  const user = useUser();
-  const songs = useSongs(user);
 
   return (
     <div className="flex flex-row max-h-screen overflow-y-hidden text-gray-50">
@@ -34,8 +30,14 @@ export default function App({ Profile, NavBar }) {
           {songs.length > 0 ? (
             <ul className="grid pt-4 grid-cols gap-x-24 gap-y-16 place-items-center md:grid-cols-2 lg:grid-cols-3">
               {songs.map((song) => (
-                <li key={song._id} className="cursor-pointer group">
-                  <article className="flex flex-col w-full p-6 transition-colors bg-gray-800 h-96 group-hover:bg-gray-700">
+                <li
+                  key={song._id}
+                  onClick={() => {
+                    router.push(`app/songs/${song._id}`);
+                  }}
+                  className="cursor-pointer group"
+                >
+                  <article className="flex flex-col w-full h-full p-6 transition-colors bg-gray-800 group-hover:bg-gray-700">
                     <div className="relative ">
                       <Image
                         src={song.songImage}
@@ -56,13 +58,16 @@ export default function App({ Profile, NavBar }) {
                     <span className="ml-4 font-medium text-gray-400 text-md">
                       {song.songUser.name}
                     </span>
+                    <span className="ml-4 text-sm text-gray-400">
+                      {song.genre}
+                    </span>
                   </article>
                 </li>
               ))}
             </ul>
           ) : (
             <div className="flex flex-row justify-center">
-              <span className="text-gray-100">No tienes canciones todavía</span>
+              <span className="text-gray-100">No tiene canciones todavía</span>
             </div>
           )}
         </section>

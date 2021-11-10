@@ -64,15 +64,17 @@ export default function App({ Profile, NavBar }) {
             {user && (
               <article className="flex flex-row items-center justify-center">
                 <div className="flex flex-col items-center justify-center">
-                  <div>
-                    <Image
-                      className="w-full rounded-full"
-                      src={user.profileImage}
-                      alt={user.name}
-                      width={200}
-                      height={200}
-                    />
-                  </div>
+                  {user.profileImage && (
+                    <div>
+                      <Image
+                        className="w-full rounded-full"
+                        src={user.profileImage}
+                        alt={user.name}
+                        width={200}
+                        height={200}
+                      />
+                    </div>
+                  )}
                 </div>
                 <div className="flex flex-col items-start p-4 mx-16 mt-4 border border-green-50">
                   <h1 className="mb-4 ml-4 text-5xl font-bold">{user.name}</h1>
