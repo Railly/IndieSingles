@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import Controls from "components/Controls";
 import Details from "components/Details";
 
-export default function Player({
+export default function jPlayer({
   currentSongIndex,
   setCurrentSongIndex,
   nextSongIndex,
@@ -46,7 +46,7 @@ export default function Player({
   };
 
   return (
-    <div className="c-player translate">
+    <div className="grid w-full grid-cols-3 p-4">
       <audio src={songs[currentSongIndex].songUrl} ref={audioEl}></audio>
       <Details song={songs[currentSongIndex]} />
       <Controls
@@ -54,11 +54,10 @@ export default function Player({
         setIsPlaying={setIsPlaying}
         SkipSong={SkipSong}
       />
-      <p className="c-player flex flex-col translate-x-28 -translate-y-20">
-        Next up:{" "}
-        <span>
-          {songs[nextSongIndex].name} by {songs[nextSongIndex].name}
-        </span>
+      <p className="flex flex-col justify-center mr-4 justify-self-end">
+        <span className="text-lg font-bold">Siguiente canción: </span>
+        <span className="font-medium">{songs[nextSongIndex].name}</span>
+        <span>{songs[nextSongIndex].songUser.name}</span>
       </p>
     </div>
   );

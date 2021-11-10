@@ -146,7 +146,7 @@ export default function App() {
         </button>
       </nav>
       <main className="w-full bg-gray-900">
-        <div className="flex flex-row justify-between p-4">
+        <div className="flex flex-row justify-between p-6">
           <div className="flex flex-row">
             <h1 className="text-3xl font-bold">Home</h1>
           </div>
@@ -187,14 +187,6 @@ export default function App() {
                       height={200}
                     />
                   </div>
-                  {/* <button
-                  onClick={() => {
-                    logout();
-                  }}
-                  className="p-4 m-4 text-white transition-colors bg-green-500 rounded-md hover:bg-green-600"
-                >
-                  Cambiar Imagen
-                </button> */}
                 </div>
                 <div className="flex flex-col items-start p-4 mx-16 mt-4 border border-green-50">
                   <h1 className="mb-4 ml-4 text-5xl font-bold">{user.name}</h1>
@@ -270,14 +262,17 @@ export default function App() {
               </div>
             </form>
           </section>
-          {/* {songs.length > 0 && (
-            <Player
-              currentSongIndex={currentSongIndex}
-              setCurrentSongIndex={setCurrentSongIndex}
-              nextSongIndex={nextSongIndex}
-              songs={songs}
-            />
-          )} */}
+          <div className="fixed bottom-0 right-0 w-full bg-gray-800">
+            {songs.length > 0 && (
+              <Player
+                className="flex flex-col items-center"
+                currentSongIndex={currentSongIndex}
+                setCurrentSongIndex={setCurrentSongIndex}
+                nextSongIndex={nextSongIndex}
+                songs={songs}
+              />
+            )}
+          </div>
         </section>
       </main>
     </div>

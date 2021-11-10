@@ -6,15 +6,24 @@ import SkipPrevious from "svg/SkipPrevious";
 
 function Controls({ isPlaying, setIsPlaying, SkipSong }) {
   return (
-    <div className="flex flex-1 justify-center items-center -translate-y-14">
+    <div className="flex justify-center justify-self-center">
       <button className="preview-btn " onClick={() => SkipSong(false)}>
-      <SkipPrevious className="scale-150 -translate-x-4"/>
+        <SkipPrevious className="scale-150 -translate-x-4" />
       </button>
       <button className="play-btn" onClick={() => setIsPlaying(!isPlaying)}>
-        {isPlaying ? <Pause className="scale-150 " />:<Play className="scale-150 "  />}
+        {isPlaying ? (
+          <Pause width={60} height={60} />
+        ) : (
+          <Play
+            playColor="#262626"
+            playBackgroundColor="#fff"
+            width={60}
+            height={60}
+          />
+        )}
       </button>
       <button className="skip-btn" onClick={() => SkipSong(true)}>
-      <SkipNext className="scale-150 translate-x-4"/>
+        <SkipNext className="scale-150 translate-x-4" />
       </button>
     </div>
   );

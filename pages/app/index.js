@@ -91,7 +91,7 @@ export default function App() {
         </button>
       </nav>
       <main className="w-full bg-gray-900">
-        <div className="flex flex-row justify-between p-4">
+        <div className="flex flex-row justify-between p-6">
           <div className="flex flex-row">
             <h1 className="text-3xl font-bold">Home</h1>
           </div>
@@ -118,7 +118,7 @@ export default function App() {
             )}
           </div>
         </div>
-        <section className="max-h-screen px-5 pb-24 overflow-y-scroll">
+        <section className="max-h-screen px-5 overflow-y-scroll pb-72">
           <h1 className="text-xl">Tus canciones</h1>
           {songs.length > 0 ? (
             <ul className="grid pt-4 grid-cols gap-x-24 gap-y-16 place-items-center md:grid-cols-2 lg:grid-cols-3">
@@ -154,14 +154,17 @@ export default function App() {
               <span className="text-gray-100">No tienes canciones todavía</span>
             </div>
           )}
-          {songs.length > 0 && (
-            <Player className = "flex flex-col items-center"
-              currentSongIndex={currentSongIndex}
-              setCurrentSongIndex={setCurrentSongIndex}
-              nextSongIndex={nextSongIndex}
-              songs={songs}
-            />
-          )}
+          <div className="fixed bottom-0 right-0 w-full bg-gray-800">
+            {songs.length > 0 && (
+              <Player
+                className="flex flex-col items-center"
+                currentSongIndex={currentSongIndex}
+                setCurrentSongIndex={setCurrentSongIndex}
+                nextSongIndex={nextSongIndex}
+                songs={songs}
+              />
+            )}
+          </div>
         </section>
       </main>
     </div>
