@@ -1,16 +1,20 @@
 import React from "react";
+import Pause from "svg/Pause";
+import Play from "svg/Play";
+import SkipNext from "svg/SkipNext";
+import SkipPrevious from "svg/SkipPrevious";
 
 function Controls({ isPlaying, setIsPlaying, SkipSong }) {
   return (
-    <div className="c-player--controls">
-      <button className="skip-btn" onClick={() => SkipSong(false)}>
-        Backward
+    <div className="flex flex-1 justify-center items-center -translate-y-14">
+      <button className="preview-btn " onClick={() => SkipSong(false)}>
+      <SkipPrevious className="scale-150 -translate-x-4"/>
       </button>
       <button className="play-btn" onClick={() => setIsPlaying(!isPlaying)}>
-        {isPlaying ? <p>Pause</p> : <p>Play</p>}
+        {isPlaying ? <Pause className="scale-150 " />:<Play className="scale-150 "  />}
       </button>
       <button className="skip-btn" onClick={() => SkipSong(true)}>
-        Forward
+      <SkipNext className="scale-150 translate-x-4"/>
       </button>
     </div>
   );

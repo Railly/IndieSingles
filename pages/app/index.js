@@ -155,7 +155,7 @@ export default function App() {
             </div>
           )}
           {songs.length > 0 && (
-            <Player
+            <Player className = "flex flex-col items-center"
               currentSongIndex={currentSongIndex}
               setCurrentSongIndex={setCurrentSongIndex}
               nextSongIndex={nextSongIndex}

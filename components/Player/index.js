@@ -46,16 +46,15 @@ export default function Player({
   };
 
   return (
-    <div className="c-player">
+    <div className="c-player translate">
       <audio src={songs[currentSongIndex].songUrl} ref={audioEl}></audio>
-      <h4>Player</h4>
       <Details song={songs[currentSongIndex]} />
       <Controls
         isPlaying={isPlaying}
         setIsPlaying={setIsPlaying}
         SkipSong={SkipSong}
       />
-      <p>
+      <p className="c-player flex flex-col translate-x-28 -translate-y-20">
         Next up:{" "}
         <span>
           {songs[nextSongIndex].name} by {songs[nextSongIndex].name}
