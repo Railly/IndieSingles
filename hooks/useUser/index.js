@@ -15,7 +15,7 @@ export default function useUser() {
         .then((res) => res.json())
         .then((data) => {
           console.log(data);
-          setUser(data, "setUser(data)");
+          setUser(data);
         })
         .catch((err) => {
           console.error(err.message);
