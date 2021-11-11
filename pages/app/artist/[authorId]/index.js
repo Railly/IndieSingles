@@ -20,7 +20,7 @@ export default function Artist({ Profile, NavBar, user }) {
     if (allUsers.length > 0 && authorId) {
       setAuthor(allUsers.find((user) => user._id === authorId));
     }
-  }, [allUsers]);
+  }, [allUsers, authorId]);
 
   const handleSubscribe = () => {
     window
