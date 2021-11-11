@@ -33,7 +33,7 @@ export default function AppLayout({ Component, pageProps }) {
         Profile={() => Profile(user)}
         {...pageProps}
       />
-      {user && (
+      {user && allSongs.length > 0 && (
         <MediaPlayerBar
           isPlaying={isPlaying}
           setIsPlaying={setIsPlaying}
