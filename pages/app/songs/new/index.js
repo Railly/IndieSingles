@@ -1,8 +1,12 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { songSchema } from "schemas/validation";
 
 export default function App({ Profile, NavBar }) {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, formState: { errors }, } = useForm({
+    resolver: yupResolver(songSchema),
+  });
   const [fileImage, setFileImage] = useState(null);
   const [fileAudio, setFileAudio] = useState(null);
 
@@ -63,6 +67,9 @@ export default function App({ Profile, NavBar }) {
                       {...register("name")}
                     />
                   </label>
+                  <span className="text-xs text-red-500">
+                    {errors?.name && errors?.name?.message}
+                  </span>
                   <label className="flex flex-col font-semibold">
                     Descripción:
                     <textarea
@@ -95,8 +102,12 @@ export default function App({ Profile, NavBar }) {
                           fileImage.size / 1024
                         )} KB)`}
                       </span>
+                      
                     )}
                   </label>
+                  <span className="text-xs text-red-500">
+                    {errors?.file && errors?.file?.message}
+                  </span>
                   <label className="flex flex-col font-semibold">
                     Subir canción
                     <div className="relative">
@@ -121,6 +132,9 @@ export default function App({ Profile, NavBar }) {
                       </span>
                     )}
                   </label>
+                  <span className="text-xs text-red-500">
+                      {errors?.song && errors?.song?.message}
+                  </span>
 
                   <label className="flex flex-col font-semibold">
                     Género:
@@ -130,6 +144,9 @@ export default function App({ Profile, NavBar }) {
                       {...register("genre")}
                     />
                   </label>
+                  <span className="text-xs text-red-500">
+                    {errors?.genre && errors?.genre?.message}
+                  </span>
                 </div>
               </div>
               <button className="w-64 px-4 py-2 my-4 text-white bg-green-500 rounded-full">

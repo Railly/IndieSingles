@@ -52,18 +52,21 @@ export default function Register() {
         Registrate y comparte tus canciones con el mundo
       </h1>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="h-14">
+        <div >
           <label className="flex flex-col font-semibold">
             Nombre:
             <input
               className="text-black border border-gray-400 rounded-full"
               type="text"
-              name="username"
+              name="name"
               {...register("name")}
             />
           </label>
+          <span className="text-xs text-red-500">
+            {errors?.name && errors?.name?.message}
+          </span>
         </div>
-        <div className="h-14">
+        <div >
           <label className="flex flex-col font-semibold">
             Email:
             <input
@@ -73,8 +76,11 @@ export default function Register() {
               {...register("email")}
             />
           </label>
+          <span className="text-xs text-red-500">
+              {errors?.email && errors?.email?.message}
+          </span>
         </div>
-        <div className="h-20">
+        <div >
           <label className="flex flex-col font-semibold">
             Contraseña:
             <input
@@ -89,7 +95,7 @@ export default function Register() {
           </span>
         </div>
         <button
-          className="px-20 py-2 font-bold text-white bg-green-700 rounded-full hover:bg-green-600 focus:outline-none focus:shadow-outline"
+          className="px-20 py-2 font-bold text-white bg-green-700 rounded-full hover:bg-green-600 focus:outline-none focus:shadow-outline mt-4"
           type="submit"
         >
           Registrarse

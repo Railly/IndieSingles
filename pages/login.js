@@ -1,13 +1,20 @@
 import { useRouter } from "next/dist/client/router";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { loginSchema } from "schemas/validation";
 import Logo from "svg/Logo";
 
 export default function Login() {
   const router = useRouter();
   const [token, setToken] = useState(null);
-  const { register, handleSubmit } = useForm();
-
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(loginSchema),
+  });
   const onSubmit = (data) => {
     window
       .fetch("https://api-indiesingles.herokuapp.com/api/user/login", {
@@ -23,7 +30,8 @@ export default function Login() {
           setToken(data.token);
         }
       })
-      .catch((err) => console.error(err.message));
+      .catch((err) => console.error(err.message))
+      ;
   };
   const handleClick = () => {
     router.push("/register");
@@ -49,7 +57,7 @@ export default function Login() {
         Es momento de descubrir o compartir nueva musica
       </h1>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="h-14">
+        <div >
           <label className="flex flex-col font-semibold">
             Email:
             <input
@@ -59,8 +67,11 @@ export default function Login() {
               {...register("email")}
             />
           </label>
+          <span className="text-xs text-red-500">
+              {errors?.email && errors?.email?.message}
+          </span>
         </div>
-        <div className="h-20">
+        <div >
           <label className="flex flex-col font-semibold">
             Contraseña:
             <input
@@ -70,9 +81,12 @@ export default function Login() {
               {...register("password")}
             />
           </label>
+          <span className="text-xs text-red-500">
+              {errors?.password && errors?.password?.message}
+          </span>
         </div>
         <button
-          className="px-20 py-2 font-bold text-white bg-green-700 rounded-full hover:bg-green-600 focus:outline-none focus:shadow-outline"
+          className="px-20 mt-4 py-2 font-bold text-white bg-green-700 rounded-full hover:bg-green-600 focus:outline-none focus:shadow-outline"
           type="submit"
         >
           Iniciar Session

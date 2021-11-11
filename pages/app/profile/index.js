@@ -2,13 +2,17 @@ import Image from "next/image";
 import useUser from "hooks/useUser";
 import { useForm, useFormState } from "react-hook-form";
 import { useEffect, useState } from "react";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { perfilSchema } from "schemas/validation";
 import useUpdateUser from "hooks/useUpdateUser";
+
 
 export default function App({ Profile, NavBar }) {
   const user = useUser();
   const handleUpdateUser = useUpdateUser();
   const [file, setFile] = useState(null);
-  const { register, setValue, handleSubmit, control } = useForm();
+  const { register, setValue, handleSubmit, control, formState: { errors }, } = useForm({
+    resolver: yupResolver(perfilSchema),});
   const { dirtyFields } = useFormState({
     control,
   });
@@ -120,6 +124,9 @@ export default function App({ Profile, NavBar }) {
                     {...register("password")}
                   />
                 </label>
+                <span className="text-xs text-red-500">
+                  {errors?.password && errors?.password?.message}
+                </span>
                 <label className="flex flex-col font-semibold">
                   Foto de perfil:
                   <div className="relative">
@@ -133,6 +140,9 @@ export default function App({ Profile, NavBar }) {
                   </div>
                   <span className="w-64 px-4 py-4 my-2 text-center bg-black border border-green-500 rounded-full text-gray-50">
                     Subir imagen
+                  </span>
+                  <span className="text-xs text-red-500">
+                    {errors?.file && errors?.file?.message}
                   </span>
                   {file && (
                     <span className="text-sm text-gray-300">
