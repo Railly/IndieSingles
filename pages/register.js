@@ -1,12 +1,22 @@
 import { useRouter } from "next/dist/client/router";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { registerSchema } from "schemas/validation";
 import Logo from "svg/Logo";
 
 export default function Register() {
   const router = useRouter();
   const [user, setUser] = useState(null);
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(registerSchema),
+  });
+
+  console.log(errors);
 
   const onSubmit = (data) => {
     window
@@ -74,6 +84,9 @@ export default function Register() {
               {...register("password")}
             />
           </label>
+          <span className="text-xs text-red-500">
+            {errors?.password && errors?.password?.message}
+          </span>
         </div>
         <button
           className="px-20 py-2 font-bold text-white bg-green-700 rounded-full hover:bg-green-600 focus:outline-none focus:shadow-outline"
