@@ -35,15 +35,11 @@ export default function NavBar(allUsers, user) {
             </a>
           </Link>
         </li>
-        <li className="pt-4">
-          <Link href="/artists/">
-            <a className="flex flex-row">
-              <Music />
-              <span className="ml-2">Todos los artistas</span>
-            </a>
-          </Link>
-        </li>
       </ul>
+      <p className="flex flex-row pt-4 pb-2 mx-4">
+        <Music />
+        <span className="ml-2">Tus suscripciones</span>
+      </p>
       <ul className="overflow-y-scroll">
         {allUsers.length > 0 &&
           user &&
