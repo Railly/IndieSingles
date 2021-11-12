@@ -4,7 +4,8 @@ import Back from "svg/Back";
 import Play from "svg/Play";
 import Image from "next/image";
 import Pause from "svg/Pause";
-import Modal from "components/Modal";
+import Modal, { CommentModal } from "components/Modal";
+import Song from "svg/Song";
 
 export default function App({
   Profile,
@@ -18,9 +19,11 @@ export default function App({
   setIsPlaying,
 }) {
   const [modal, setModal] = useState(false);
+  const [reload, setReload] = useState(false);
   const router = useRouter();
   const { songId } = router.query;
   const [song, setSong] = useState(null);
+
   const handleDelete = () => {
     window
       .fetch(
@@ -61,13 +64,17 @@ export default function App({
         .then((res) => res.json())
         .then((data) => {
           console.log(data);
-          setSong(data);
+          const newData = {
+            ...data,
+            songCommentaries: data.songCommentaries.reverse(),
+          };
+          setSong(newData);
         })
         .catch((err) => {
           console.error(err);
         });
     }
-  }, [songId]);
+  }, [songId, reload]);
 
   const handlePlay = () => {
     const songIndex = allSongs.findIndex((song) => song._id === songId);
@@ -135,6 +142,7 @@ export default function App({
                     </div>
                   </div>
                   <div className="flex flex-col items-center justify-center h-full px-8 ml-8 border border-green-50">
+                    <Song width={50} height={50} />
                     <h2 className="mb-2 text-xl font-bold">{song.genre}</h2>
                     <p className="mb-4 font-medium text-md">
                       {song.description}
@@ -165,7 +173,7 @@ export default function App({
                     {user && user._id === song.songUser._id && (
                       <button
                         onClick={() => {
-                          setModal(true);
+                          setModal("delete");
                         }}
                         className="px-4 py-2 mt-8 font-bold text-white transition-colors bg-red-500 rounded-full hover:bg-red-700"
                       >
@@ -173,13 +181,60 @@ export default function App({
                       </button>
                     )}
                   </div>
+                  <div className="relative flex flex-col h-full pt-2 pl-4 ml-8 bg-gray-800 border border-green-50">
+                    <button
+                      onClick={() => {
+                        setModal("comment");
+                      }}
+                      className="absolute px-4 py-2 font-bold text-white transition-colors bg-green-500 rounded-full right-2 top-2 hover:bg-green-700"
+                    >
+                      Agregar comentario
+                    </button>
+                    <h1 className="mb-2 text-xl font-bold">Comentarios</h1>
+                    <span className="pb-2 text-sm text-gray-400">
+                      {song.songCommentaries.length} comentarios
+                    </span>
+                    <div className="flex flex-col overflow-y-scroll">
+                      {song.songCommentaries.map((commentary) => (
+                        <div className="flex flex-col h-full pl-4 my-4 ml-4 mr-8 transition-colors bg-gray-700 border-l border-gray-300">
+                          <div className="flex flex-row items-center justify-between">
+                            <span className="py-2 mr-6 font-medium text-md">
+                              {commentary.commentaryUser.name}
+                            </span>
+                            <span className="pr-4 text-sm text-gray-400">
+                              {new Date(
+                                commentary.createdAt
+                              ).toLocaleDateString("es-ES", {
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
+                              })}
+                            </span>
+                          </div>
+                          <p className="pb-4 text-sm text-gray-300">
+                            {commentary.commentary}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </>
               )}
             </div>
           </section>
         </main>
       </div>
-      {modal && <Modal setModal={setModal} handleDelete={handleDelete} />}
+      {modal === "delete" && (
+        <Modal setModal={setModal} handleDelete={handleDelete} />
+      )}
+      {modal === "comment" && (
+        <CommentModal
+          setModal={setModal}
+          songId={songId}
+          reload={reload}
+          setReload={setReload}
+        />
+      )}
     </>
   );
 }

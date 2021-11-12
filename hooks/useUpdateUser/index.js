@@ -1,4 +1,4 @@
-export default function useUpdateUser() {
+export default function useUpdateUser(refetchUser, setModal) {
   const handleUpdateUser = (formData) => {
     fetch("https://api-indiesingles.herokuapp.com/api/user", {
       method: "PUT",
@@ -9,7 +9,11 @@ export default function useUpdateUser() {
     })
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
+        if (res.ok) {
+          console.log(res);
+          refetchUser();
+          setModal(false);
+        }
       })
       .catch((err) => console.error(err));
   };

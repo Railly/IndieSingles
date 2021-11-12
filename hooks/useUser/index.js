@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 export default function useUser() {
   const [user, setUser] = useState(null);
+  const [reload, setReload] = useState(false);
 
   useEffect(() => {
     const token = window.localStorage.getItem("token");
@@ -21,7 +22,7 @@ export default function useUser() {
           console.error(err.message);
         });
     }
-  }, []);
+  }, [reload]);
 
-  return user;
+  return { user, refetchUser: () => setReload(!reload) };
 }

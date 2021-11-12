@@ -1,15 +1,14 @@
 import Image from "next/image";
 import useUser from "hooks/useUser";
+import { UpdateModal } from "components/Modal";
 import { useForm, useFormState } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { perfilSchema } from "schemas/validation";
-import useUpdateUser from "hooks/useUpdateUser";
 
-export default function App({ Profile, NavBar }) {
-  const user = useUser();
-  const handleUpdateUser = useUpdateUser();
-  const [file, setFile] = useState(null);
+export default function App({ Profile, NavBar, user, refetchUser }) {
+  const [modal, setModal] = useState(false);
+  const [reload, setReload] = useState(false);
   const {
     register,
     setValue,
@@ -22,13 +21,6 @@ export default function App({ Profile, NavBar }) {
   const { dirtyFields } = useFormState({
     control,
   });
-
-  const handleFileChange = (e) => {
-    console.log(e.target.files[0]);
-    const _file = e.target.files[0];
-    setFile(_file);
-    register("file").onChange(e);
-  };
 
   const onSubmit = (data) => {
     let cleanData = Object.keys(data).reduce((acc, key) => {
@@ -60,56 +52,59 @@ export default function App({ Profile, NavBar }) {
   }, [user]);
 
   return (
-    <div className="flex flex-row max-h-screen overflow-y-hidden text-gray-50">
-      <NavBar />
-      <main className="w-full bg-gray-900">
-        <div className="flex flex-row justify-between p-6">
-          <div className="flex flex-row">
-            <h1 className="text-3xl font-bold">Mi Perfil</h1>
+    <>
+      <div className="flex flex-row max-h-screen overflow-y-hidden text-gray-50">
+        <NavBar />
+        <main className="w-full bg-gray-900">
+          <div className="flex flex-row justify-between p-6">
+            <div className="flex flex-row">
+              <h1 className="text-3xl font-bold">Mi Perfil</h1>
+            </div>
+            <Profile />
           </div>
-          <Profile />
-        </div>
-        <section className="max-h-screen px-5 pb-24 overflow-y-scroll">
-          <section className="grid grid-cols">
-            {user && (
-              <article className="flex flex-row items-center justify-center">
-                <div className="flex flex-col items-center justify-center">
-                  <div>
-                    <Image
-                      className="w-full rounded-full"
-                      src={user.profileImage || "/images/unknown.jpg"}
-                      alt={user.name}
-                      width={200}
-                      height={200}
-                    />
+          <section className="max-h-screen px-5 pb-24 overflow-y-scroll">
+            <section className="grid grid-cols">
+              {user && (
+                <article className="flex flex-row items-center justify-center">
+                  <div className="flex flex-col items-center justify-center">
+                    <div>
+                      <Image
+                        className="w-full rounded-full"
+                        src={user.profileImage || "/images/unknown.jpg"}
+                        alt={user.name}
+                        width={200}
+                        height={200}
+                      />
+                    </div>
                   </div>
-                </div>
-                <div className="flex flex-col items-start p-4 mx-16 mt-4 border border-green-50">
-                  <h1 className="mb-4 ml-4 text-5xl font-bold">{user.name}</h1>
-                  <span className="text-gray-100">
-                    <b>Correo: </b>
-                    {user.email}
-                  </span>
-                  <span className="text-gray-100">
-                    <b>Seguidores: </b>
-                    {user.userSubscribers.length}
-                  </span>
-                  <span className="text-gray-100">
-                    <b>Seguidos: </b>
-                    {user.userSubscriptions.length}
-                  </span>
-                  <span>
-                    <b>Descripción: </b>
-                  </span>
-                  {user.description}
-                </div>
-              </article>
-            )}
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              className="flex flex-col items-center justify-center md:mt-4 md:flex-row md:items-start"
-            >
-              <label className="flex flex-col font-semibold">
+                  <div className="flex flex-col items-start p-4 mx-16 mt-4 border border-green-50">
+                    <h1 className="mb-4 ml-4 text-5xl font-bold">
+                      {user.name}
+                    </h1>
+                    <span className="text-gray-100">
+                      <b>Correo: </b>
+                      {user.email}
+                    </span>
+                    <span className="text-gray-100">
+                      <b>Seguidores: </b>
+                      {user.userSubscribers.length}
+                    </span>
+                    <span className="text-gray-100">
+                      <b>Seguidos: </b>
+                      {user.userSubscriptions.length}
+                    </span>
+                    <span>
+                      <b>Descripción: </b>
+                    </span>
+                    {user.description}
+                  </div>
+                </article>
+              )}
+              <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="grid px-16 mt-16 grid-cols gap-x-16 md:grid-cols-3"
+              >
+                {/* <label className="flex flex-col font-semibold">
                 Descripción:
                 <textarea
                   className="h-48 px-4 py-2 my-2 overflow-y-hidden text-black resize-none w-72 rounded-xl"
@@ -153,19 +148,64 @@ export default function App({ Profile, NavBar }) {
                       {`${file.name} (${Math.round(file.size / 1024)} KB)`}
                     </span>
                   )}
-                </label>
+                </label> */}
                 <button
-                  disabled={Object.keys(dirtyFields).length === 0}
-                  type="submit"
-                  className="w-full px-4 py-2 mt-4 mb-24 text-white transition-colors bg-green-500 rounded-md hover:bg-green-600 disabled:bg-gray-400 disabled:cursor-default"
+                  type="button"
+                  onClick={() => {
+                    setModal("description");
+                  }}
+                  className="w-full px-4 py-2 mt-4 text-white transition-colors bg-green-600 rounded-md hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-default"
                 >
-                  Actualizar Perfil
+                  Editar descripción
                 </button>
-              </div>
-            </form>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setModal("password");
+                  }}
+                  className="w-full px-4 py-2 mt-4 text-white transition-colors bg-green-600 rounded-md hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-default"
+                >
+                  Editar Contraseña
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setModal("image");
+                  }}
+                  className="w-full px-4 py-2 mt-4 text-white transition-colors bg-green-600 rounded-md hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-default"
+                >
+                  Editar foto de Perfil
+                </button>
+                {/* </div> */}
+              </form>
+            </section>
           </section>
-        </section>
-      </main>
-    </div>
+        </main>
+      </div>
+      {modal === "description" && (
+        <UpdateModal
+          setModal={setModal}
+          displayName="descripción"
+          field="description"
+          refetchUser={refetchUser}
+        />
+      )}
+      {modal === "password" && (
+        <UpdateModal
+          setModal={setModal}
+          displayName="contraseña"
+          field="password"
+          refetchUser={refetchUser}
+        />
+      )}
+      {modal === "image" && (
+        <UpdateModal
+          setModal={setModal}
+          displayName="foto de perfil"
+          field="file"
+          refetchUser={refetchUser}
+        />
+      )}
+    </>
   );
 }

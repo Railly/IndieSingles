@@ -9,7 +9,7 @@ import { useState } from "react";
 import useGetAllSongs from "hooks/useGetAllSongs";
 
 export default function AppLayout({ Component, pageProps }) {
-  const user = useUser();
+  const { user, refetchUser } = useUser();
   const { allUsers, refetchAllUsers } = useAllUsers();
   const { songs, refetchSongs } = useSongs(user);
   const { allSongs, refetchAllSongs } = useGetAllSongs(user);
@@ -20,6 +20,7 @@ export default function AppLayout({ Component, pageProps }) {
     <>
       <Component
         user={user}
+        refetchUser={refetchUser}
         songs={songs}
         refetchAllSongs={refetchAllSongs}
         refetchSongs={refetchSongs}

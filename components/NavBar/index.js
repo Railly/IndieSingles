@@ -36,7 +36,7 @@ export default function NavBar(allUsers, user) {
           </Link>
         </li>
         <li className="pt-4">
-          <Link href="/app/artists/">
+          <Link href="/artists/">
             <a className="flex flex-row">
               <Music />
               <span className="ml-2">Todos los artistas</span>
@@ -48,10 +48,10 @@ export default function NavBar(allUsers, user) {
         {allUsers.length > 0 &&
           user &&
           allUsers
-            // .filter((u) => u._id !== user._id)
+            .filter((u) => u.userSubscribers.includes(user._id))
             .map((user) => (
               <li className="pt-4 pl-4 font-normal" key={user._id}>
-                <Link href={`/app/artist/${user._id}`}>
+                <Link href={`/artist/${user._id}`}>
                   <a className="flex flex-row">
                     <span className="ml-2">{user.name}</span>
                   </a>

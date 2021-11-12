@@ -13,7 +13,7 @@ export default function Profile(user) {
             width={40}
             height={40}
           />
-          <Link href={`/app/artist/${user._id}`}>
+          <Link href={`/artist/${user._id}`}>
             <a className="ml-4 text-lg font-medium">{user.name}</a>
           </Link>
         </div>

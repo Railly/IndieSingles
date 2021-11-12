@@ -5,14 +5,21 @@ import Play from "svg/Play";
 import Back from "svg/Back";
 import useAllUsers from "hooks/useAllUsers";
 
-export default function Artist({ Profile, NavBar, user }) {
-  const { allUsers, refetchAllUsers } = useAllUsers();
+export default function Artist({
+  Profile,
+  NavBar,
+  user,
+  refetchUser,
+  allUsers,
+  refetchAllUsers,
+}) {
   const router = useRouter();
   const { authorId } = router.query;
   const [currentSongs, setCurrentSongs] = useState([]);
   const [author, setAuthor] = useState(null);
 
   useEffect(() => {
+    refetchUser();
     refetchAllUsers();
   }, []);
 
@@ -36,7 +43,8 @@ export default function Artist({ Profile, NavBar, user }) {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        router.reload();
+        refetchAllUsers();
+        refetchUser();
       })
       .catch((err) => console.error(err));
   };
@@ -55,7 +63,8 @@ export default function Artist({ Profile, NavBar, user }) {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        router.reload();
+        refetchAllUsers();
+        refetchUser();
       })
       .catch((err) => console.error(err));
   };
