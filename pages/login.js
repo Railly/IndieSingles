@@ -104,7 +104,7 @@ export default function Login() {
           Ir a Registrarse
         </button>
         <span className="flex justify-center w-full text-red-500">
-          {errorsDictionary[error]}
+          {errorsDictionary[error] || error}
         </span>
       </form>
     </div>
