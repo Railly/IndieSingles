@@ -4,9 +4,11 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "schemas/validation";
 import Logo from "svg/Logo";
+import { errorsDictionary } from "utils/errorsDictionary";
 
 export default function Login() {
   const router = useRouter();
+  const [error, setError] = useState(null);
   const [token, setToken] = useState(null);
   const {
     register,
@@ -28,10 +30,14 @@ export default function Login() {
       .then((data) => {
         if (data.ok) {
           setToken(data.token);
+        } else {
+          setError(data.msg);
+          console.log(data.msg);
         }
       })
-      .catch((err) => console.error(err.message))
-      ;
+      .catch((err) => {
+        console.error(err.message);
+      });
   };
   const handleClick = () => {
     router.push("/register");
@@ -57,36 +63,36 @@ export default function Login() {
         Es momento de descubrir o compartir nueva musica
       </h1>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div >
+        <div>
           <label className="flex flex-col font-semibold">
             Email:
             <input
-              className="text-black border border-gray-400 rounded-full"
+              className="px-4 py-2 my-2 text-black border border-gray-400 rounded-full"
               type="email"
               name="email"
               {...register("email")}
             />
           </label>
           <span className="text-xs text-red-500">
-              {errors?.email && errors?.email?.message}
+            {errors?.email && errors?.email?.message}
           </span>
         </div>
-        <div >
+        <div>
           <label className="flex flex-col font-semibold">
             Contraseña:
             <input
-              className="text-black border border-gray-400 rounded-full"
+              className="px-4 py-2 my-2 text-black border border-gray-400 rounded-full"
               type="password"
               name="password"
               {...register("password")}
             />
           </label>
-          <span className="text-xs text-red-500">
-              {errors?.password && errors?.password?.message}
+          <span className="text-xs text-red-500 ">
+            {errors?.password && errors?.password?.message}
           </span>
         </div>
         <button
-          className="px-20 mt-4 py-2 font-bold text-white bg-green-700 rounded-full hover:bg-green-600 focus:outline-none focus:shadow-outline"
+          className="px-20 py-2 my-4 font-bold text-white bg-green-700 rounded-full hover:bg-green-600 focus:outline-none focus:shadow-outline"
           type="submit"
         >
           Iniciar Session
@@ -95,8 +101,11 @@ export default function Login() {
           className="flex flex-col h-10 px-20 text-gray-300 hover:text-gray-100 "
           onClick={handleClick}
         >
-          ir a Registrarse
+          Ir a Registrarse
         </button>
+        <span className="flex justify-center w-full text-red-500">
+          {errorsDictionary[error]}
+        </span>
       </form>
     </div>
   );

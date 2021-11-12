@@ -4,10 +4,12 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { registerSchema } from "schemas/validation";
 import Logo from "svg/Logo";
+import { errorsDictionary } from "utils/errorsDictionary";
 
 export default function Register() {
   const router = useRouter();
   const [user, setUser] = useState(null);
+  const [error, setError] = useState(null);
   const {
     register,
     handleSubmit,
@@ -27,9 +29,14 @@ export default function Register() {
         },
         body: JSON.stringify(data),
       })
-      .then((res) => {
-        if (res.ok) {
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.ok) {
           router.push("/login");
+        } else {
+          setError(data.errors);
+          console.log(data.errors);
         }
       });
   };
@@ -52,11 +59,11 @@ export default function Register() {
         Registrate y comparte tus canciones con el mundo
       </h1>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div >
+        <div>
           <label className="flex flex-col font-semibold">
             Nombre:
             <input
-              className="text-black border border-gray-400 rounded-full"
+              className="px-4 py-2 my-2 text-black border border-gray-400 rounded-full"
               type="text"
               name="name"
               {...register("name")}
@@ -66,25 +73,25 @@ export default function Register() {
             {errors?.name && errors?.name?.message}
           </span>
         </div>
-        <div >
+        <div>
           <label className="flex flex-col font-semibold">
             Email:
             <input
-              className="text-black border border-gray-400 rounded-full"
+              className="px-4 py-2 my-2 text-black border border-gray-400 rounded-full"
               type="email"
               name="email"
               {...register("email")}
             />
           </label>
           <span className="text-xs text-red-500">
-              {errors?.email && errors?.email?.message}
+            {errors?.email && errors?.email?.message}
           </span>
         </div>
-        <div >
+        <div>
           <label className="flex flex-col font-semibold">
             Contraseña:
             <input
-              className="text-black border border-gray-400 rounded-full"
+              className="px-4 py-2 my-2 text-black border border-gray-400 rounded-full"
               type="password"
               name="password"
               {...register("password")}
@@ -95,7 +102,7 @@ export default function Register() {
           </span>
         </div>
         <button
-          className="px-20 py-2 font-bold text-white bg-green-700 rounded-full hover:bg-green-600 focus:outline-none focus:shadow-outline mt-4"
+          className="px-20 py-2 mt-4 font-bold text-white bg-green-700 rounded-full hover:bg-green-600 focus:outline-none focus:shadow-outline"
           type="submit"
         >
           Registrarse
@@ -106,6 +113,14 @@ export default function Register() {
         >
           Ir a Inicio de Sesion
         </button>
+        {error &&
+          error.map((err) => {
+            return (
+              <span className="flex justify-center w-full mt-2 text-red-500">
+                {errorsDictionary[err.msg] || err.msg}
+              </span>
+            );
+          })}
       </form>
     </div>
   );
