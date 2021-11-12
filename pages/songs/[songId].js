@@ -144,7 +144,7 @@ export default function App({
                   <div className="flex flex-col items-center justify-center h-full px-8 ml-8 border border-green-50">
                     <Song width={50} height={50} />
                     <h2 className="mb-2 text-xl font-bold">{song.genre}</h2>
-                    <p className="mb-4 font-medium text-md">
+                    <p className="w-56 mb-4 text-center  text-md">
                       {song.description}
                     </p>
                     <p className="text-sm">
@@ -181,15 +181,7 @@ export default function App({
                       </button>
                     )}
                   </div>
-                  <div className="relative flex flex-col h-full pt-2 pl-4 ml-8 bg-gray-800 border border-green-50">
-                    <button
-                      onClick={() => {
-                        setModal("comment");
-                      }}
-                      className="absolute px-4 py-2 font-bold text-white transition-colors bg-green-500 rounded-full right-2 top-2 hover:bg-green-700"
-                    >
-                      Agregar comentario
-                    </button>
+                  <div className="flex flex-col h-full px-4 pt-2 ml-8 bg-gray-800 border border-green-50">
                     <h1 className="mb-2 text-xl font-bold">Comentarios</h1>
                     <span className="pb-2 text-sm text-gray-400">
                       {song.songCommentaries.length} comentarios
@@ -217,6 +209,14 @@ export default function App({
                         </div>
                       ))}
                     </div>
+                    <button
+                      onClick={() => {
+                        setModal("comment");
+                      }}
+                      className="px-4 py-2 m-4 font-bold text-white transition-colors bg-green-500 rounded-full hover:bg-green-700"
+                    >
+                      Agregar comentario
+                    </button>
                   </div>
                 </>
               )}
