@@ -20,9 +20,9 @@ export default function App({ Profile, NavBar, songs }) {
             <h1 className="text-xl">Tus canciones</h1>
             <button
               onClick={() => {
-                router.push("app/songs/new");
+                router.push("/songs/new");
               }}
-              className="fixed right-0 z-10 px-4 py-2 mr-8 font-bold text-white bg-green-500 rounded hover:bg-blue-700"
+              className="fixed bottom-0 right-0 z-10 px-4 py-2 mr-8 font-bold text-white bg-green-500 rounded hover:bg-blue-700"
             >
               Agregar canciones
             </button>
@@ -33,7 +33,7 @@ export default function App({ Profile, NavBar, songs }) {
                 <li
                   key={song._id}
                   onClick={() => {
-                    router.push(`app/songs/${song._id}`);
+                    router.push(`/songs/${song._id}`);
                   }}
                   className="cursor-pointer group"
                 >

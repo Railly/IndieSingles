@@ -6,13 +6,19 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { perfilSchema } from "schemas/validation";
 import useUpdateUser from "hooks/useUpdateUser";
 
-
 export default function App({ Profile, NavBar }) {
   const user = useUser();
   const handleUpdateUser = useUpdateUser();
   const [file, setFile] = useState(null);
-  const { register, setValue, handleSubmit, control, formState: { errors }, } = useForm({
-    resolver: yupResolver(perfilSchema),});
+  const {
+    register,
+    setValue,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(perfilSchema),
+  });
   const { dirtyFields } = useFormState({
     control,
   });
@@ -68,17 +74,15 @@ export default function App({ Profile, NavBar }) {
             {user && (
               <article className="flex flex-row items-center justify-center">
                 <div className="flex flex-col items-center justify-center">
-                  {user.profileImage && (
-                    <div>
-                      <Image
-                        className="w-full rounded-full"
-                        src={user.profileImage}
-                        alt={user.name}
-                        width={200}
-                        height={200}
-                      />
-                    </div>
-                  )}
+                  <div>
+                    <Image
+                      className="w-full rounded-full"
+                      src={user.profileImage || "/images/unknown.jpg"}
+                      alt={user.name}
+                      width={200}
+                      height={200}
+                    />
+                  </div>
                 </div>
                 <div className="flex flex-col items-start p-4 mx-16 mt-4 border border-green-50">
                   <h1 className="mb-4 ml-4 text-5xl font-bold">{user.name}</h1>

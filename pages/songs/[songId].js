@@ -39,7 +39,7 @@ export default function App({
         refetchSongs();
         refetchAllSongs();
         setModal(false);
-        router.push("/app/");
+        router.back();
       })
       .catch((err) => {
         console.error(err);

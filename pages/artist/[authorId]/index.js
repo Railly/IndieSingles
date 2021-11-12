@@ -95,14 +95,12 @@ export default function Artist({ Profile, NavBar, user }) {
           />
           {author && (
             <div className="flex flex-row items-center">
-              {author?.profileImage && (
-                <Image
-                  className="rounded-full"
-                  src={author.profileImage}
-                  width={50}
-                  height={50}
-                />
-              )}
+              <Image
+                className="rounded-full"
+                src={author?.profileImage || "/images/unknown.jpg"}
+                width={50}
+                height={50}
+              />
               <h1 className="ml-4 text-3xl font-bold">{author.name}</h1>
             </div>
           )}
@@ -161,8 +159,7 @@ export default function Artist({ Profile, NavBar, user }) {
                   <li
                     key={song._id}
                     onClick={() => {
-                      router.push("/app");
-                      router.push(`/app/songs/${song._id}`);
+                      router.push(`/songs/${song._id}`);
                     }}
                     className="cursor-pointer group"
                   >

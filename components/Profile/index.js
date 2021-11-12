@@ -6,15 +6,13 @@ export default function Profile(user) {
     <div className="flex flex-row">
       {user ? (
         <div className="flex flex-row items-center">
-          {user.profileImage && (
-            <Image
-              className="rounded-full"
-              src={user.profileImage}
-              alt="profile picture"
-              width={40}
-              height={40}
-            />
-          )}
+          <Image
+            className="rounded-full"
+            src={user?.profileImage || "/images/unknown.jpg"}
+            alt="profile picture"
+            width={40}
+            height={40}
+          />
           <Link href={`/app/artist/${user._id}`}>
             <a className="ml-4 text-lg font-medium">{user.name}</a>
           </Link>
