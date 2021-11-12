@@ -13,19 +13,19 @@ export default function App({ Profile, NavBar, songs }) {
           <div className="flex flex-row">
             <h1 className="text-3xl font-bold">Home</h1>
           </div>
+          <button
+            onClick={() => {
+              router.push("/songs/new");
+            }}
+            className="z-10 px-4 py-2 mr-8 font-bold text-white bg-green-500 rounded hover:bg-blue-700"
+          >
+            Agregar canciones
+          </button>
           <Profile />
         </div>
         <section className="max-h-screen px-5 overflow-y-scroll pb-72">
           <div className="flex flex-row justify-between">
             <h1 className="text-xl">Tus canciones</h1>
-            <button
-              onClick={() => {
-                router.push("/songs/new");
-              }}
-              className="fixed bottom-0 right-0 z-10 px-4 py-2 mr-8 font-bold text-white bg-green-500 rounded hover:bg-blue-700"
-            >
-              Agregar canciones
-            </button>
           </div>
           {songs.length > 0 ? (
             <ul className="grid pt-4 grid-cols gap-x-24 gap-y-16 place-items-center md:grid-cols-2 lg:grid-cols-3">
