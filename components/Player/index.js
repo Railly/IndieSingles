@@ -11,14 +11,28 @@ export default function jPlayer({
   songs,
 }) {
   const audioEl = useRef(null);
+  const [duration, setDuration] = useState(100);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [songState, setSongState] = useState("stopped");
 
   useEffect(() => {
     if (isPlaying) {
       audioEl.current.play();
+      setSongState("playing");
     } else {
       audioEl.current.pause();
+      setSongState("paused");
     }
   });
+
+  const convertElapsedTime = (elapsedTime) => {
+    const minutes = Math.floor(elapsedTime / 60);
+    const seconds = Math.floor(elapsedTime - minutes * 60);
+    if (seconds < 10) {
+      return `${minutes}:0${seconds}`;
+    }
+    return `${minutes}:${seconds}`;
+  };
 
   const SkipSong = (forwards = true) => {
     if (forwards) {
@@ -48,13 +62,66 @@ export default function jPlayer({
 
   return (
     <div className="grid w-full grid-cols-3 p-4">
-      <audio src={songs[currentSongIndex].songUrl} ref={audioEl}></audio>
+      <audio
+        onLoadedMetadata={() => {
+          setDuration(audioEl.current.duration);
+        }}
+        onTimeUpdate={() => {
+          setCurrentTime(audioEl.current.currentTime);
+        }}
+        src={songs[currentSongIndex].songUrl}
+        ref={audioEl}
+      ></audio>
       <Details song={songs[currentSongIndex]} />
-      <Controls
-        isPlaying={isPlaying}
-        setIsPlaying={setIsPlaying}
-        SkipSong={SkipSong}
-      />
+      <div>
+        <Controls
+          isPlaying={isPlaying}
+          setIsPlaying={setIsPlaying}
+          SkipSong={SkipSong}
+        />
+        <div className="flex items-center mt-4">
+          <span className="w-12 font-medium ">
+            {convertElapsedTime(currentTime)}
+          </span>
+          {/* <div className="w-full h-1 mx-4 bg-gray-300"></div>
+          <div className="w-full h-1 mx-4 bg-gray-500"></div> */}
+          {/* Draw a line */}
+          {audioEl?.current && (
+            <div className="flex flex-row w-full">
+              <svg
+                className="h-1 bg-gray-300"
+                fill="none"
+                height={1}
+                width={`${Math.floor((currentTime / duration) * 100)}%`}
+                viewBox="0 0 100 100"
+                preserveAspectRatio="none"
+              >
+                {console.log(Math.floor((currentTime / duration) * 100))}
+                <path d="M0 0 L100 0 L100 100 L0 100 L0 0" />
+              </svg>
+              <svg
+                className="h-1 bg-gray-600"
+                fill="none"
+                height={1}
+                width="50%"
+                width={`${Math.floor(
+                  ((duration - currentTime) / duration) * 100
+                )}%`}
+                viewBox="0 0 100 100"
+                preserveAspectRatio="none"
+              >
+                {console.log(
+                  Math.floor(((duration - currentTime) / duration) * 100)
+                )}
+                <path d="M0 0 L100 0 L100 100 L0 100 L0 0" />
+              </svg>
+            </div>
+          )}
+          <span className="w-12 ml-2 font-medium">
+            {convertElapsedTime(duration)}
+          </span>
+        </div>
+      </div>
       <p className="flex flex-col justify-center mr-4 justify-self-end">
         <span className="text-lg font-bold">Siguiente canción: </span>
         <span className="font-medium">{songs[nextSongIndex].name}</span>
