@@ -11,7 +11,6 @@ export default function App({
   refetchAllSongs,
   refetchSongs,
 }) {
-  console.log(user, "user");
   const {
     register,
     handleSubmit,
@@ -32,7 +31,6 @@ export default function App({
 
   const onSubmit = (data) => {
     setDisabled(true);
-    console.log(data);
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("description", data.description);
@@ -53,7 +51,6 @@ export default function App({
         refetchSongs();
         setModal(true);
         setDisabled(false);
-        console.log(res);
       })
       .catch((err) => {
         console.error(err);

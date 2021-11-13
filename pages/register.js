@@ -3,12 +3,12 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { registerSchema } from "schemas/validation";
+import Link from "next/link";
 import Logo from "svg/Logo";
 import { errorsDictionary } from "utils/errorsDictionary";
 
 export default function Register() {
   const router = useRouter();
-  const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
   const {
     register,
@@ -17,8 +17,6 @@ export default function Register() {
   } = useForm({
     resolver: yupResolver(registerSchema),
   });
-
-  console.log(errors);
 
   const onSubmit = (data) => {
     window
@@ -31,18 +29,12 @@ export default function Register() {
       })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         if (data.ok) {
           router.push("/login");
         } else {
           setError(data.errors);
-          console.log(data.errors);
         }
       });
-  };
-
-  const handleClick = () => {
-    router.push("/login");
   };
 
   useEffect(() => {
@@ -107,12 +99,11 @@ export default function Register() {
         >
           Registrarse
         </button>
-        <button
-          className="mx-3 tex-gray-300 hover:text-gray-100 "
-          onClick={handleClick}
-        >
-          Ir a Inicio de Sesion
-        </button>
+        <Link href="/login">
+          <a className="mx-3 tex-gray-300 hover:text-gray-100 ">
+            Ir a Inicio de Sesion
+          </a>
+        </Link>
         {error &&
           error.map((err) => {
             return (

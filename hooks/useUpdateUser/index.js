@@ -10,7 +10,6 @@ export default function useUpdateUser(refetchUser, setModal) {
       .then((res) => res.json())
       .then((res) => {
         if (res.ok) {
-          console.log(res);
           refetchUser();
           setModal(false);
         }

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "schemas/validation";
+import Link from "next/link";
 import Logo from "svg/Logo";
 import { errorsDictionary } from "utils/errorsDictionary";
 
@@ -32,7 +33,6 @@ export default function Login() {
           setToken(data.token);
         } else {
           setError(data.msg);
-          console.log(data.msg);
         }
       })
       .catch((err) => {
@@ -97,12 +97,11 @@ export default function Login() {
         >
           Iniciar Session
         </button>
-        <button
-          className="flex flex-col h-10 px-20 text-gray-300 hover:text-gray-100 "
-          onClick={handleClick}
-        >
-          Ir a Registrarse
-        </button>
+        <Link href="/register">
+          <a className="flex flex-col h-10 px-20 text-gray-300 hover:text-gray-100 ">
+            Ir a Registrarse
+          </a>
+        </Link>
         <span className="flex justify-center w-full text-red-500">
           {errorsDictionary[error] || error}
         </span>

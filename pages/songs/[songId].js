@@ -38,7 +38,6 @@ export default function App({
       )
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         refetchSongs();
         refetchAllSongs();
         setModal(false);
@@ -63,7 +62,6 @@ export default function App({
         )
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
           const newData = {
             ...data,
             songCommentaries: data.songCommentaries.reverse(),
@@ -144,7 +142,7 @@ export default function App({
                   <div className="flex flex-col items-center justify-center h-full px-8 ml-8 border border-green-50">
                     <Song width={50} height={50} />
                     <h2 className="mb-2 text-xl font-bold">{song.genre}</h2>
-                    <p className="w-56 mb-4 text-center  text-md">
+                    <p className="w-56 mb-4 text-center text-md">
                       {song.description}
                     </p>
                     <p className="text-sm">

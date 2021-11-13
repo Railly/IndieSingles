@@ -17,7 +17,6 @@ export default function useGetAllSongs(user) {
         )
         .then((res) => res.json())
         .then((data) => {
-          console.log(data, "allSongs");
           setAllSongs(data);
         });
     }

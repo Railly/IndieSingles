@@ -15,7 +15,6 @@ export default function useUser() {
         })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
           setUser(data);
         })
         .catch((err) => {

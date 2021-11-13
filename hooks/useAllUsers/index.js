@@ -16,7 +16,6 @@ export default function useAllUsers() {
       )
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setAllUsers(data);
       });
   }, [reload]);

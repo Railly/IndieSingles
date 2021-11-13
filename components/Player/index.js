@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import Controls from "components/Controls";
 import Details from "components/Details";
+import PlayBar from "svg/PlayBar";
 
 export default function jPlayer({
   isPlaying,
@@ -83,34 +84,18 @@ export default function jPlayer({
           <span className="w-12 font-medium ">
             {convertElapsedTime(currentTime)}
           </span>
-          {/* <div className="w-full h-1 mx-4 bg-gray-300"></div>
-          <div className="w-full h-1 mx-4 bg-gray-500"></div> */}
-          {/* Draw a line */}
           {audioEl?.current && (
             <div className="flex flex-row w-full">
-              <svg
+              <PlayBar
                 className="h-1 bg-gray-300"
-                fill="none"
-                height={1}
                 width={`${Math.floor((currentTime / duration) * 100)}%`}
-                viewBox="0 0 100 100"
-                preserveAspectRatio="none"
-              >
-                <path d="M0 0 L100 0 L100 100 L0 100 L0 0" />
-              </svg>
-              <svg
+              />
+              <PlayBar
                 className="h-1 bg-gray-600"
-                fill="none"
-                height={1}
-                width="50%"
                 width={`${Math.floor(
                   ((duration - currentTime) / duration) * 100
                 )}%`}
-                viewBox="0 0 100 100"
-                preserveAspectRatio="none"
-              >
-                <path d="M0 0 L100 0 L100 100 L0 100 L0 0" />
-              </svg>
+              />
             </div>
           )}
           <span className="w-12 ml-2 font-medium">

@@ -42,7 +42,6 @@ export default function Artist({
       )
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         refetchAllUsers();
         refetchUser();
       })
@@ -62,7 +61,6 @@ export default function Artist({
       )
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         refetchAllUsers();
         refetchUser();
       })
@@ -84,7 +82,6 @@ export default function Artist({
         .then((res) => res.json())
         .then((data) => {
           setCurrentSongs(data);
-          console.log(data, "currentSongs");
         });
     }
   }, [authorId]);

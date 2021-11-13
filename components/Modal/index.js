@@ -96,7 +96,6 @@ export function CommentModal({ setModal, songId, setReload, reload }) {
         }
       })
       .catch((err) => console.error(err));
-    console.log(newData);
   };
 
   return (
@@ -156,7 +155,6 @@ export function UpdateModal({ setModal, field, refetchUser, displayName }) {
     const formData = new FormData();
     if (field === "file") {
       formData.append(field, data.file[0]);
-      console.log(data.file[0], "file");
     } else {
       formData.append(field, data[field]);
     }
@@ -164,7 +162,6 @@ export function UpdateModal({ setModal, field, refetchUser, displayName }) {
   };
 
   const handleFileChange = (e) => {
-    console.log(e.target.files[0]);
     const _file = e.target.files[0];
     setFile(_file);
     register("file").onChange(e);

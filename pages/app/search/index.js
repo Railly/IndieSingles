@@ -13,7 +13,6 @@ export default function App({ Profile, NavBar }) {
   const search = watch("search");
 
   const onSubmit = (data) => {
-    console.log(data);
     handleSearch(data.search);
   };
 
@@ -29,7 +28,6 @@ export default function App({ Profile, NavBar }) {
     )
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setUsers(data.results.users);
         setSongs(data.results.songs);
       });
