@@ -96,7 +96,6 @@ export default function jPlayer({
                 viewBox="0 0 100 100"
                 preserveAspectRatio="none"
               >
-                {console.log(Math.floor((currentTime / duration) * 100))}
                 <path d="M0 0 L100 0 L100 100 L0 100 L0 0" />
               </svg>
               <svg
@@ -110,9 +109,6 @@ export default function jPlayer({
                 viewBox="0 0 100 100"
                 preserveAspectRatio="none"
               >
-                {console.log(
-                  Math.floor(((duration - currentTime) / duration) * 100)
-                )}
                 <path d="M0 0 L100 0 L100 100 L0 100 L0 0" />
               </svg>
             </div>
