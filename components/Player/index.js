@@ -14,15 +14,12 @@ export default function jPlayer({
   const audioEl = useRef(null);
   const [duration, setDuration] = useState(100);
   const [currentTime, setCurrentTime] = useState(0);
-  const [songState, setSongState] = useState("stopped");
 
   useEffect(() => {
     if (isPlaying) {
       audioEl.current.play();
-      setSongState("playing");
     } else {
       audioEl.current.pause();
-      setSongState("paused");
     }
   });
 
@@ -66,6 +63,7 @@ export default function jPlayer({
       <audio
         onLoadedMetadata={() => {
           setDuration(audioEl.current.duration);
+          audioEl.current.volume = 0.4;
         }}
         onTimeUpdate={() => {
           setCurrentTime(audioEl.current.currentTime);
